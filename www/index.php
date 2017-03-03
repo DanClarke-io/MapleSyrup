@@ -10,6 +10,7 @@
   <!-- Bootstrap -->
   <link href="css/bootstrap.min.css" rel="stylesheet">
   <link href="css/animate.css" rel="stylesheet">
+  <link href="css/font-awesome.min.css" rel="stylesheet">
 
   <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
   <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -27,14 +28,16 @@
     background: linear-gradient(to bottom, #606c88 0%,#3f4c6b 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
     filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#606c88', endColorstr='#3f4c6b',GradientType=0 ); /* IE6-9 */
   }
-  .device-container { margin:40px auto 0 auto; display:flex; flex-direction: column; justify-content: center; align-content:center; align-items: center; width:320px; }
+  .device-container { margin:40px auto 0 auto; display:flex; flex-direction: column-reverse; justify-content: center; align-content:center; align-items: center; width:320px; }
   .device-container .page-container {
+    top:0;
     border-radius: 5px; overflow:hidden; float:left; width:100%;  width:320px; background:#FFF;
     -webkit-box-shadow: 0px 0px 43px -21px rgba(0,0,0,0.75); -moz-box-shadow: 0px 0px 43px -21px rgba(0,0,0,0.75); box-shadow: 0px 0px 43px -21px rgba(0,0,0,0.75);
   }
   .device-container .page-container .page-item { float:left; width:100%; }
   .device-container .page-container .page-item h2 { font-weight:normal; -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; margin:0 0 20px 0; color:#FFF; background:#329CC3; width:100%; line-height: 1em; padding:5px 10px 10px 10px; float:left; }
   .device-container .page-container .page-item h2 small { color:#FFF; }
+  .device-container .page-container .page-item h3 { padding:0 10px; margin:0; float:left; width:100%; background:#CCC;  border-top:1px solid #888; border-bottom:1px solid #888; }
   .device-container .page-container .page-item .content { padding:20px; }
   .device-container .page-container .page-item.loading { position: relative; }
   .device-container .page-container .page-item.loading::before {
@@ -43,14 +46,19 @@
   input { background:#FFFACE;  border:1px solid #CCC; margin:0 0 10px 0; }
   .subjects { width:100%; float:left; padding:0; margin:-20px 0 0 0; }
   .subjects li { cursor: pointer; width:100%; float:left; padding:10px 10px; border-bottom:1px solid #CCC; margin:0; }
+  .subjects li:after { content: "\f054"; font-family: 'FontAwesome'; float:right; }
   .subjects li:hover { background:rgba(200,200,200,0.5); }
+
+  .keyfact-box textarea { width:100%; }
+
   </style>
 </head>
 <body>
   <div class="container">
     <div class="row">
       <div class="device-container">
-        <div class="page-container animated bounceInDown">
+
+        <div class="page-container login-container animated bounceInDown">
           <div class="page-item login-box">
             <h2><strong>Maple</strong>Syrup</h2>
             <div class="content">
@@ -63,7 +71,9 @@
               </form>
             </div>
           </div>
-          <div class="page-item subject-list" style="display:none" >
+        </div>
+        <div class="page-container animated subject-container" style="display:none;">
+          <div class="page-item subject-box">
             <h2><strong>Maple</strong>Syrup: <small>Subjects</small></h2>
             <ul class="subjects">
               <li>Subject 1</li>
@@ -74,6 +84,41 @@
             </ul>
           </div>
         </div>
+
+        <div class="page-container animated subject-object-container" style="display:none;">
+          <div class="page-item subject-object-box">
+            <h2><strong>Maple</strong>Syrup: <small>Subject</small></h2>
+            <ul class="subjects">
+              <li>To add a bold tag, you use &lt;b&gt;</li>
+              <li>To add a italic tag, you use &lt;em&gt;</li>
+              <li>To add a paragraph tag, you use &lt;p&gt;</li>
+              <li>To add a video tag, you use &lt;video&gt; and &lt;source&gt;</li>
+              <li>To add a img tag, you use &lt;img src="yourvideo" /&gt;</li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="page-container animated keyfact-container" style="display:none;">
+          <div class="page-item keyfact-box">
+            <h2><strong>Maple</strong>Syrup</h2>
+            <div class="content">
+              <div class="form-group">
+                <label for="keyfact-header">Key fact</label>
+                <textarea class="form-control" name="keyfact-header" id="keyfact-header" class="keyfact-header" disabled>Keyfact title</textarea>
+              </div>
+              <div class="form-group">
+                <label for="explanation">Explanation</label>
+                <textarea class="form-control" disabled>I figured this out because I'm awesome.</textarea>
+              </div>
+            </div>
+            <h3>Citation</h3>
+            <div class="content">
+              <p>https://site.com</p>
+              <div style="text-align:center;"><button class="btn btn-primary">Edit</button></div>
+            </div>
+          </div>
+        </div>
+
       </div>
     </div>
   </div>
@@ -84,18 +129,32 @@
   <!-- Include all compiled plugins (below), or include individual files as needed -->
   <script src="js/bootstrap.min.js"></script>
   <script type="text/javascript">
+    $('.page-container').show();
+    $('.page-container.subject-container ul li').on('click',function() {
+      var title = $(this).html();
+      $('.page-container.subject-object-container h2 small').html(title);
+      $('.page-container.subject-container').addClass('fadeOutLeftBig');
+      setTimeout(function() {$('.page-item.subject-box').hide();},700);
+      setTimeout(function() {$('.page-container.subject-object-container').show().addClass('bounceInRight');},200);
+    });
+
+    $('.page-container.subject-object-container ul li').on('click',function() {
+      var title = $(this).html();
+      $('.page-container.keyfact-container textarea.keyfact-header').removeAttr('disabled');
+      $('.page-container.keyfact-container textarea.keyfact-header').html(title);
+      $('.page-container.keyfact-container textarea.keyfact-header').attr('disabled','disabled');
+      $('.page-container.subject-object-container').addClass('fadeOutLeftBig');
+      setTimeout(function() {$('.page-item.subject-object-box').hide();},700);
+      setTimeout(function() {$('.page-container.keyfact-container').show().addClass('bounceInRight');},200);
+    });
 
     $('.login-form button').on('click',function() {
-
       $('.page-item.login-box').addClass('loading');
       setTimeout(function() {
         $('.page-item.login-box').removeClass('loading');
-        $('.page-container').addClass('fadeOutLeftBig');
-        setTimeout(function() {
-          $('.page-item.login-box').hide();
-          $('.page-item.subject-list').show();
-          $('.page-container').removeClass('fadeOutLeftBig bounceInDown').addClass('bounceInRight');
-        },1000)
+        $('.page-container.login-container').addClass('fadeOutLeftBig');
+        setTimeout(function() {$('.page-item.login-box').hide();},700);
+        setTimeout(function() {$('.page-container.subject-container').show().addClass('bounceInRight');},200);
       },500);
     })
   </script>
