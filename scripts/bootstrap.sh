@@ -9,9 +9,9 @@ max_execution_time=100
 max_input_time=223
 
 # create project folder
-if [ ! -d "/var/www/html/${PROJECTFOLDER}" ]
+if [ ! -d "/var/www/html/www" ]
   then
-    sudo mkdir "/var/www/html/${PROJECTFOLDER}"
+    sudo mkdir "/var/www/html/www"
 fi
 if [ ! -d "/vagrant/apache-logs" ]
   then
@@ -58,8 +58,8 @@ VHOST=$(cat <<EOF
   ServerName dev.io
   ErrorLog /vagrant/apache-logs/error.log
   CustomLog /vagrant/apache-logs/access.log common
-  DocumentRoot "/var/www/html/${PROJECTFOLDER}"
-  <Directory "/var/www/html/${PROJECTFOLDER}">
+  DocumentRoot "/var/www/html/www"
+  <Directory "/var/www/html/www">
       AllowOverride All
       Require all granted
   </Directory>
