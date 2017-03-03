@@ -9,6 +9,7 @@
 
   <!-- Bootstrap -->
   <link href="css/bootstrap.min.css" rel="stylesheet">
+  <link href="css/animate.css" rel="stylesheet">
 
   <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
   <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -41,7 +42,7 @@
   <div class="container">
     <div class="row">
       <div class="device-container">
-        <div class="page-container">
+        <div class="page-container animated bounceInDown">
           <div class="page-item login-box">
             <h2><strong>Maple</strong>Syrup</h2>
             <div class="content">
