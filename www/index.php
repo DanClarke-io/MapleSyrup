@@ -104,7 +104,7 @@
             <div class="content">
               <div class="form-group">
                 <label for="keyfact-header">Key fact</label>
-                <textarea class="form-control" name="keyfact-header" id="keyfact-header" class="keyfact-header" disabled>Keyfact title</textarea>
+                <textarea class="form-control keyfact-header" name="keyfact-header" id="keyfact-header" disabled>Keyfact title</textarea>
               </div>
               <div class="form-group">
                 <label for="explanation">Explanation</label>
@@ -129,7 +129,7 @@
   <!-- Include all compiled plugins (below), or include individual files as needed -->
   <script src="js/bootstrap.min.js"></script>
   <script type="text/javascript">
-    $('.page-container').show();
+    //$('.page-container').show();
     $('.page-container.subject-container ul li').on('click',function() {
       var title = $(this).html();
       $('.page-container.subject-object-container h2 small').html(title);
@@ -139,9 +139,11 @@
     });
 
     $('.page-container.subject-object-container ul li').on('click',function() {
-      var title = $(this).html();
+      var title = $(this).text();
       $('.page-container.keyfact-container textarea.keyfact-header').removeAttr('disabled');
-      $('.page-container.keyfact-container textarea.keyfact-header').html(title);
+      $('.page-container.keyfact-container textarea.keyfact-header').val(title);
+      console.log($('.page-container.keyfact-container textarea.keyfact-header'));
+      console.log('Content: '+$('.page-container.keyfact-container textarea.keyfact-header').val());
       $('.page-container.keyfact-container textarea.keyfact-header').attr('disabled','disabled');
       $('.page-container.subject-object-container').addClass('fadeOutLeftBig');
       setTimeout(function() {$('.page-item.subject-object-box').hide();},700);
