@@ -1,0 +1,6 @@
+.DS_Store
+.vagrant
+machines
+backup/db_live*
+apache-logs/*
+index.html
