@@ -5,7 +5,7 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
-  <title>Bootstrap 101 Template</title>
+  <title>MapleSyrup</title>
 
   <!-- Bootstrap -->
   <link href="css/bootstrap.min.css" rel="stylesheet">
@@ -34,8 +34,16 @@
   }
   .device-container .page-container .page-item { float:left; width:100%; }
   .device-container .page-container .page-item h2 { font-weight:normal; -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; margin:0 0 20px 0; color:#FFF; background:#329CC3; width:100%; line-height: 1em; padding:5px 10px 10px 10px; float:left; }
+  .device-container .page-container .page-item h2 small { color:#FFF; }
   .device-container .page-container .page-item .content { padding:20px; }
+  .device-container .page-container .page-item.loading { position: relative; }
+  .device-container .page-container .page-item.loading::before {
+    content:""; left:0; position:absolute; width:100%; height:100%; background:rgba(255,255,255,0.8);
+  }
   input { background:#FFFACE;  border:1px solid #CCC; margin:0 0 10px 0; }
+  .subjects { width:100%; float:left; padding:0; margin:-20px 0 0 0; }
+  .subjects li { cursor: pointer; width:100%; float:left; padding:10px 10px; border-bottom:1px solid #CCC; margin:0; }
+  .subjects li:hover { background:rgba(200,200,200,0.5); }
   </style>
 </head>
 <body>
@@ -46,7 +54,7 @@
           <div class="page-item login-box">
             <h2><strong>Maple</strong>Syrup</h2>
             <div class="content">
-              <form method="post" class="login">
+              <form method="post" class="login-form">
                 <div class="form-group"><input type="email" class="form-control" placeholder="Email address" /></div>
                 <div class="form-group"><input type="password" class="form-control" placeholder="Password" /></div>
                 <div class="clear"></div>
@@ -54,6 +62,16 @@
                 <button type="button" style="float:right;" class="btn btn-primary">Login</button>
               </form>
             </div>
+          </div>
+          <div class="page-item subject-list" style="display:none" >
+            <h2><strong>Maple</strong>Syrup: <small>Subjects</small></h2>
+            <ul class="subjects">
+              <li>Subject 1</li>
+              <li>Subject 2</li>
+              <li>Subject 3</li>
+              <li>Subject 4</li>
+              <li>Subject 5</li>
+            </ul>
           </div>
         </div>
       </div>
@@ -65,5 +83,21 @@
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
   <!-- Include all compiled plugins (below), or include individual files as needed -->
   <script src="js/bootstrap.min.js"></script>
+  <script type="text/javascript">
+
+    $('.login-form button').on('click',function() {
+
+      $('.page-item.login-box').addClass('loading');
+      setTimeout(function() {
+        $('.page-item.login-box').removeClass('loading');
+        $('.page-container').addClass('fadeOutLeftBig');
+        setTimeout(function() {
+          $('.page-item.login-box').hide();
+          $('.page-item.subject-list').show();
+          $('.page-container').removeClass('fadeOutLeftBig bounceInDown').addClass('bounceInRight');
+        },1000)
+      },500);
+    })
+  </script>
 </body>
 </html>
