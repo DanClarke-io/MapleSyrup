@@ -32,7 +32,7 @@ sudo debconf-set-selections <<< "mysql-server mysql-server/root_password passwor
 sudo debconf-set-selections <<< "mysql-server mysql-server/root_password_again password $PASSWORD"
 sudo apt-get -y install mysql-server > /dev/null
 sudo apt-get -y install php5-mysql php5-curl > /dev/null
-sudo apt-get -y install php5-xsl
+sudo apt-get -y install php5-xsl php5-sqlite
 
 if [ ! -f /var/swap.1 ]
 	then
