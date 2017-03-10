@@ -61,6 +61,8 @@
 
   .keyfact-box textarea { width:100%; }
 
+  .add-line { padding:10px; float:left; width:100%; }
+
   </style>
 </head>
 <body>
@@ -92,6 +94,8 @@
               <li>Subject 4</li>
               <li>Subject 5</li>
             </ul>
+            <div class="add-line"><button class="btn btn-primary">Add subject</button></div>
+            <div class="add-box"></div>
           </div>
         </div>
 
@@ -105,6 +109,8 @@
               <li>To add a video tag, you use &lt;video&gt; and &lt;source&gt;</li>
               <li>To add a img tag, you use &lt;img src="yourvideo" /&gt;</li>
             </ul>
+            <div class="add-line"><button class="btn btn-primary">Add note</button></div>
+            <div class="add-box"></div>
           </div>
         </div>
 
@@ -120,14 +126,13 @@
                 <label for="explanation">Explanation</label>
                 <textarea class="form-control keyfact-explanation" disabled>I figured this out because I'm awesome.</textarea>
               </div>
-            </div>
-            <h3>Citation</h3>
-            <div class="content">
-              <div class="keyfact-citation">
-                <p>https://site.com</p>
-                <div style="text-align:center;"><button class="btn btn-primary">Edit</button></div>
+              <div class="form-group">
+                <label for="explanation">Citation</label>
+                <textarea class="form-control keyfact-citation" disabled>I figured this out because I'm awesome.</textarea>
               </div>
             </div>
+            <div class="add-line"><button class="btn btn-primary">Edit</button></div>
+            <div class="add-box"></div>
           </div>
         </div>
 
@@ -165,7 +170,10 @@
       })
 
     });
-
+    $('.page-container.subject-container .add-line button').on('click',function() {
+      console.log('test');
+      $('.add-box',$(this).parent().parent()).append('<div class="form-group"><input type="text" class="form-control subject-name" placeholder="Subject name" />');
+    })
     $('.page-container.subject-object-container').on('click','li',function() {
       var title = $(this).text();
       var container = $(this);
@@ -180,7 +188,7 @@
         else {
           $('.page-container.keyfact-container textarea.keyfact-header').val(data.data[0].title);
           $('.page-container.keyfact-container textarea.keyfact-explanation').val(data.data[0].explanation);
-          $('.page-container.keyfact-container div.keyfact-citation').html(data.data[0].source);
+          $('.page-container.keyfact-container textarea.keyfact-citation').html(data.data[0].source);
           $('.page-container.subject-object-container').addClass('fadeOutLeftBig');
           setTimeout(function() {$('.page-item.subject-object-box').hide();},700);
           setTimeout(function() {$('.page-container.keyfact-container').show().addClass('bounceInRight');},200);
