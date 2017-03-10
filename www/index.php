@@ -118,13 +118,15 @@
               </div>
               <div class="form-group">
                 <label for="explanation">Explanation</label>
-                <textarea class="form-control" disabled>I figured this out because I'm awesome.</textarea>
+                <textarea class="form-control keyfact-explanation" disabled>I figured this out because I'm awesome.</textarea>
               </div>
             </div>
             <h3>Citation</h3>
             <div class="content">
-              <p>https://site.com</p>
-              <div style="text-align:center;"><button class="btn btn-primary">Edit</button></div>
+              <div class="keyfact-citation">
+                <p>https://site.com</p>
+                <div style="text-align:center;"><button class="btn btn-primary">Edit</button></div>
+              </div>
             </div>
           </div>
         </div>
@@ -140,26 +142,51 @@
   <script src="js/bootstrap.min.js"></script>
   <script type="text/javascript">
     //$('.page-container').show();
-    $('.page-container.subject-container ul li').on('click',function() {
+    $('.page-container.subject-container ul').on('click','li',function() {
       var title = $(this).html();
-      $('.page-container.subject-object-container h2 small').html(title);
-      $('.page-container.subject-container').addClass('fadeOutLeftBig');
-      setTimeout(function() {$('.page-item.subject-box').hide();},700);
-      setTimeout(function() {$('.page-container.subject-object-container').show().addClass('bounceInRight');},200);
+      var container = $(this);
+      var subjectId = $(this).attr('data-id');
+      $.ajax({
+        url:'query.php',
+        method:'POST',
+        data:{'act':'notes','id':subjectId}
+      }).done(function(data) {
+        $('.page-item.login-box').removeClass('loading');
+        if(data.response=='error') { $(container).append('<div style="">'+data.message+'</div>'); }
+        else {
+          $('.page-container.subject-object-container ul.subjects li').remove();
+          $(data.data).each(function(x,e) {
+            $('.page-container.subject-object-container ul.subjects').append('<li data-id="'+e.id+'">'+e.title+'</li>');
+          })
+          $('.page-container.subject-container').addClass('fadeOutLeftBig');
+          setTimeout(function() {$('.page-item.subject-box').hide();},700);
+          setTimeout(function() {$('.page-container.subject-object-container').show().addClass('bounceInRight');},200);
+        }
+      })
+
     });
 
-    $('.page-container.subject-object-container ul li').on('click',function() {
+    $('.page-container.subject-object-container').on('click','li',function() {
       var title = $(this).text();
-      $('.page-container.keyfact-container textarea.keyfact-header').removeAttr('disabled');
-      $('.page-container.keyfact-container textarea.keyfact-header').val(title);
-      console.log($('.page-container.keyfact-container textarea.keyfact-header'));
-      console.log('Content: '+$('.page-container.keyfact-container textarea.keyfact-header').val());
-      $('.page-container.keyfact-container textarea.keyfact-header').attr('disabled','disabled');
-      $('.page-container.subject-object-container').addClass('fadeOutLeftBig');
-      setTimeout(function() {$('.page-item.subject-object-box').hide();},700);
-      setTimeout(function() {$('.page-container.keyfact-container').show().addClass('bounceInRight');},200);
+      var container = $(this);
+      var noteId = $(this).attr('data-id');
+      $.ajax({
+        url:'query.php',
+        method:'POST',
+        data:{'act':'note','id':noteId}
+      }).done(function(data) {
+        $('.page-item.login-box').removeClass('loading');
+        if(data.response=='error') { $(container).append('<div style="">'+data.message+'</div>'); }
+        else {
+          $('.page-container.keyfact-container textarea.keyfact-header').val(data.data[0].title);
+          $('.page-container.keyfact-container textarea.keyfact-explanation').val(data.data[0].explanation);
+          $('.page-container.keyfact-container div.keyfact-citation').html(data.data[0].source);
+          $('.page-container.subject-object-container').addClass('fadeOutLeftBig');
+          setTimeout(function() {$('.page-item.subject-object-box').hide();},700);
+          setTimeout(function() {$('.page-container.keyfact-container').show().addClass('bounceInRight');},200);
+        }
+      })
     });
-
     $('.login-form button').on('click',function() {
       $('.page-item.login-box').addClass('loading');
       $.ajax({
@@ -172,7 +199,13 @@
         else {
           $('.page-container.login-container').addClass('fadeOutLeftBig');
           setTimeout(function() {$('.page-item.login-box').hide();},700);
-          setTimeout(function() {$('.page-container.subject-container').show().addClass('bounceInRight');},200);
+          setTimeout(function() {
+            $('.page-container.subject-container ul.subjects li').remove();
+            $(data.data).each(function(x,e) {
+              $('.page-container.subject-container ul.subjects').append('<li data-id="'+e.id+'">'+e.name+'</li>');
+            })
+            $('.page-container.subject-container').show().addClass('bounceInRight');
+          },200);
         }
       })
     })
