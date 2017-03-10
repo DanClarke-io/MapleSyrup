@@ -1,6 +1,16 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+  <link rel="icon" type="image/png" href="/favicon-32x32.png" sizes="32x32">
+  <link rel="icon" type="image/png" href="/favicon-16x16.png" sizes="16x16">
+  <link rel="manifest" href="/manifest.json">
+  <link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5">
+  <meta name="theme-color" content="#ffffff">
+
+
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -63,8 +73,8 @@
             <h2><strong>Maple</strong>Syrup</h2>
             <div class="content">
               <form method="post" class="login-form">
-                <div class="form-group"><input type="email" class="form-control" placeholder="Email address" /></div>
-                <div class="form-group"><input type="password" class="form-control" placeholder="Password" /></div>
+                <div class="form-group"><input name="login-email" type="email" class="login-email form-control" placeholder="Email address" /></div>
+                <div class="form-group"><input name="login-password" type="password" class="login-password form-control" placeholder="Password" /></div>
                 <div class="clear"></div>
                 <label for="rememberme"><input id="rememberme" name="rememberme" type="checkbox"> Remember me</label>
                 <button type="button" style="float:right;" class="btn btn-primary">Login</button>
@@ -152,12 +162,19 @@
 
     $('.login-form button').on('click',function() {
       $('.page-item.login-box').addClass('loading');
-      setTimeout(function() {
+      $.ajax({
+        url:'query.php',
+        method:'POST',
+        data:{'act':'login','email':$('.page-item.login-box input.login-email').val(),'password':$('.page-item.login-box input.login-password').val()}
+      }).done(function(data) {
         $('.page-item.login-box').removeClass('loading');
-        $('.page-container.login-container').addClass('fadeOutLeftBig');
-        setTimeout(function() {$('.page-item.login-box').hide();},700);
-        setTimeout(function() {$('.page-container.subject-container').show().addClass('bounceInRight');},200);
-      },500);
+        if(data.response=='error') { $('form.login-form').append('<div style="">'+data.message+'</div>'); }
+        else {
+          $('.page-container.login-container').addClass('fadeOutLeftBig');
+          setTimeout(function() {$('.page-item.login-box').hide();},700);
+          setTimeout(function() {$('.page-container.subject-container').show().addClass('bounceInRight');},200);
+        }
+      })
     })
   </script>
 </body>
