@@ -30,6 +30,7 @@ Once this is complete, at the end of the day, or if you want to run your latest 
 ## Notes
 ### Database
 Database is handled in sample.db for the time being.
+Test credentials are test@test.com\test
 
 ### Issues
 Any problems, contact @overbythere.
