@@ -48,6 +48,7 @@
   .device-container .page-container .page-item h2 { font-weight:normal; -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; margin:0 0 20px 0; color:#FFF; background:#329CC3; width:100%; line-height: 1em; padding:5px 10px 10px 10px; float:left; }
   .device-container .page-container .page-item h2 small { color:#FFF; }
   .device-container .page-container .page-item h3 { padding:0 10px; margin:0; float:left; width:100%; background:#CCC;  border-top:1px solid #888; border-bottom:1px solid #888; }
+  .device-container .page-container .page-item p.back-container { cursor:pointer; float:left; width:100%; height:20px; margin:-20px 0 20px 0; padding:0 5px; background:#B8BDC7; border-bottom: 1px solid #4A71C0; font-size:0.9em; }
   .device-container .page-container .page-item .content { padding:20px; }
   .device-container .page-container .page-item.loading { position: relative; }
   .device-container .page-container .page-item.loading::before {
@@ -87,6 +88,7 @@
         <div class="page-container animated subject-container" style="display:none;">
           <div class="page-item subject-box">
             <h2><strong>Maple</strong>Syrup: <small>Subjects</small></h2>
+            <p class="back-container">&laquo; Back</p>
             <ul class="subjects">
               <li>Subject 1</li>
               <li>Subject 2</li>
@@ -102,6 +104,7 @@
         <div class="page-container animated subject-object-container" style="display:none;">
           <div class="page-item subject-object-box">
             <h2><strong>Maple</strong>Syrup: <small>Subject</small></h2>
+            <p class="back-container">&laquo; Back</p>
             <ul class="subjects">
               <li>To add a bold tag, you use &lt;b&gt;</li>
               <li>To add a italic tag, you use &lt;em&gt;</li>
@@ -117,6 +120,7 @@
         <div class="page-container animated keyfact-container" style="display:none;">
           <div class="page-item keyfact-box">
             <h2><strong>Maple</strong>Syrup</h2>
+            <p class="back-container">&laquo; Back</p>
             <div class="content">
               <div class="form-group">
                 <label for="keyfact-header">Key fact</label>
@@ -169,6 +173,21 @@
         }
       })
 
+    });
+    $('.page-container.subject-container .back-container').on('click',function() {
+      setTimeout(function() {$('.page-container.login-container').removeClass('fadeOutLeftBig bounceInRight').show().addClass('bounceInLeft');},100);
+      $('.login-container .page-item').show();
+      setTimeout(function() {$('.page-container.subject-container').hide();},100);
+    });
+    $('.page-container.subject-object-container .back-container').on('click',function() {
+      setTimeout(function() {$('.page-container.subject-container').removeClass('fadeOutLeftBig bounceInRight').show().addClass('bounceInLeft');},100);
+      $('.subject-container .page-item').show();
+      setTimeout(function() {$('.page-container.subject-object-container').hide();},100);
+    });
+    $('.page-container.keyfact-container .back-container').on('click',function() {
+      setTimeout(function() {$('.page-container.subject-object-container').removeClass('fadeOutLeftBig bounceInRight').show().addClass('bounceInLeft');},100);
+      $('.subject-object-container .page-item').show();
+      setTimeout(function() {$('.page-container.keyfact-container').hide();},100);
     });
     $('.page-container.subject-container .add-line button').on('click',function() {
       console.log('test');
